@@ -34,46 +34,53 @@ const savedNotes = require("./db/db")
 // // not 'notes'
 // });
 app.get("/api/notes", function (req, res) {
-    return fs.readFile(path.join(__dirname, "db/db.json"));
+    res.json(savedNotes)
+   // return fs.readFile(path.join(__dirname, "db/db.json"));
 });
 
-//Post that new note
+// //Post that new note
+// app.post("/api/notes", function (req, res) {
+//     const mynewNote = req.body;
+
+//     console.log(mynewNote);
+// //save that new note
+//     mynewNote.id = myNotes.length + 1;
+//     myNotes.push(mynewNote);
+// //show saved notes
+//     console.log('Unsaved notes: ', myNotes.length);
+//     mynewNote.id = myNotes.length + 1;
+//     console.log('Saved notes: ', myNotes.id);
+
+//     fs.writeFile("./db/db.json", JSON.stringify(myNotes), function(err) {
+//         if (err) {
+//             throw err;
+//         }
+//     });
+//         res.send(myNotes);
+//     });
+
 app.post("/api/notes", function (req, res) {
     const mynewNote = req.body;
 
     console.log(mynewNote);
-//save that new note
-    mynewNote.id = myNotes.length + 1;
-    myNotes.push(mynewNote);
-//show saved notes
-    console.log('Unsaved notes: ', myNotes.length);
-    mynewNote.id = myNotes.length + 1;
-    console.log('Saved notes: ', myNotes.id);
 
-    fs.writeFile("./db/db.json", JSON.stringify(myNotes), function(err) {
-        if (err) {
-            throw err;
-        }
-    });
-        res.send(myNotes);
-    });
-
-app.post("/api/notes", function (req, res) {
-const mynewNote = req.body;
-
-fs.readFile("./db/db.json", (err, data) => {
-    if (err) throw err;
-    //const savedNotes = JSON.parse(data);
+//To add note
+// fs.readFile("./db/db.json", (err, data) => {
+//     if (err) throw err;
+//     //const savedNotes = JSON.parse(data);
     
-    mynewNote.id = savedNotes.length + 1;
-    savedNotes.push(mynewNote);
+//     mynewNote.id = savedNotes.length + 1;
+//     savedNotes.push(mynewNote);
     
     fs.writeFile("./db/db.json", JSON.stringify(savedNotes), (err) => {
         if (err) throw err;
         res.json(mynewNote);
         });
-    });
-})
+//    });
+
+    res.json(savedNotes)
+});
+
 
 //delete any note
 app.delete("api/notes/:id", function (req, res) {
