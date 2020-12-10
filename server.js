@@ -60,6 +60,8 @@ app.get("/api/notes", function (req, res) {
 //     });
 
 app.post("/api/notes", function (req, res) {
+    console.log("POST:", req.body)
+    
     const mynewNote = req.body;
 
     console.log(mynewNote);
