@@ -1,0 +1,13 @@
+{
+  "name": "note-taker-2",
+  "version": "1.0.0",
+  "description": "beautiful app to take notes",
+  "main": "server.js",
+  "dependencies": {
+    "express": "^4.17.1",
+    "test": "^0.6.0"
+  },
+  "scripts": {
+    "start": "node server.js"
+  }
+}
