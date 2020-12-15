@@ -17,100 +17,68 @@ app.use(express.static("public"));
 
 //using HTML files 
 //NON assets CORRECT
-
 app.get("index", function (req, res) {
     res.sendFile(path.join(__dirname, "public/index.html"));
+
 });
 
 app.get("notes", function (req, res) {
     res.sendFile(path.join(__dirname, "public/notes.html"));
+
 });
 
 //Retrieve notes
-const savedNotes = require("./db/db")
-// const { notStrictEqual } = require("assert");
-// app.get("/api/notes", function (req, res) {
-//     return fs.readFile("db/db.json");
-// // not 'notes'
-// });
+const savedNotes = require("./db/db");
+
 app.get("/api/notes", function (req, res) {
     res.json(savedNotes)
-   // return fs.readFile(path.join(__dirname, "db/db.json"));
+ 
 });
-
-// //Post that new note
-// app.post("/api/notes", function (req, res) {
-//     const mynewNote = req.body;
-
-//     console.log(mynewNote);
-// //save that new note
-//     mynewNote.id = myNotes.length + 1;
-//     myNotes.push(mynewNote);
-// //show saved notes
-//     console.log('Unsaved notes: ', myNotes.length);
-//     mynewNote.id = myNotes.length + 1;
-//     console.log('Saved notes: ', myNotes.id);
-
-//     fs.writeFile("./db/db.json", JSON.stringify(myNotes), function(err) {
-//         if (err) {
-//             throw err;
-//         }
-//     });
-//         res.send(myNotes);
-//     });
 
 app.post("/api/notes", function (req, res) {
     console.log("POST:", req.body)
     
     const mynewNote = req.body;
-
     console.log(mynewNote);
 
-//To add note
-// fs.readFile("./db/db.json", (err, data) => {
-//     if (err) throw err;
-//     //const savedNotes = JSON.parse(data);
-    
-//     mynewNote.id = savedNotes.length + 1;
-//     savedNotes.push(mynewNote);
+    //To add note    
+    mynewNote.id = savedNotes.length + 1;
+    savedNotes.push(mynewNote);
     
     fs.writeFile("./db/db.json", JSON.stringify(savedNotes), (err) => {
         if (err) throw err;
-        res.json(mynewNote);
+
         });
-//    });
 
     res.json(savedNotes)
+
 });
 
 
 //delete any note
-app.delete("api/notes/:id", function (req, res) {
-    const deleteNoteId = req.params.id;
-    console.log("Note to be deleted::", deleteNoteId);
+app.delete("/api/notes/:id", function (req, res) {
+    const noteToDelete = req.params.id;
+    //noteToDelete was originally deleteNoteId
+    console.log ("Note to Delete: ", noteToDelete);
 
-    const deleteNote = savedNotes.map(function (item) {
-        return item.id;
-    }).indexof(deleteNoteId);
+    //removed fs.delete file and created second constant
+    //first constant takes place of the note and second constant is the deleter
+    const deleteSavedNote = savedNotes.map(function (item) {
+        return item.id
+    }).indexOf(noteToDelete);
 
-    savedNotes.splice(deleteNote);
-    console.log('saved-notes: ', savedNotes);
+    //splice = replace.
+    //saved note (savedNotes) replaced by deleteSavedNote
+    savedNotes.splice(deleteSavedNote);
 
-
-fs.deleteFile("./db/db.json", JSON.stringify(deleteNote), (err) => {
-        if (err) throw err;
-        });
-    
-        res.send(savedNotes);
+    console.log(deleteSavedNote)
+        
+    res.json(savedNotes)
 
 });
-//Delete note
-// app.delete("/db", function (req, res) {
-//     res.sendFile(path.join(__dirname, "db/db.json"));
-// });
 
-
-//Port function
+//PORT function
 app.listen(PORT, function () {
     console.log(`App listening on http://localhost:${PORT}`);
-})
+    
+});
