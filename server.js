@@ -58,7 +58,6 @@ app.post("/api/notes", function (req, res) {
 //delete any note
 app.delete("/api/notes/:id", function (req, res) {
     const noteToDelete = req.params.id;
-    //noteToDelete was originally deleteNoteId
     console.log ("Note to Delete: ", noteToDelete);
 
     //removed fs.delete file and created second constant
